@@ -18,8 +18,9 @@ jobs:
       run: sudo apt-get install -y googletest && sudo apt-get install libgtest-dev
     - name: Install CppCheck
       run: sudo apt-get install -y cppcheck
-    - name: Run Linter
+    - name: Run Linter For .C
       run: cd project/src && cppcheck *.c
+    - name: Run Linter For .H
       run: cd project/include && cppcheck *.h
     - name: Make
       run: cd project/.build && cmake ../ && make
