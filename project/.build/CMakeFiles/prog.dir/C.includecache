@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/funcs.h
+
+../include/order_struct.h
+
+/home/user/tp/Sem1/Tp-Sem1-C-CPP/project/src/main.c
+stdlib.h
+-
+stdio.h
+-
+string.h
+-
+order_struct.h
+/home/user/tp/Sem1/Tp-Sem1-C-CPP/project/src/order_struct.h
+funcs.h
+/home/user/tp/Sem1/Tp-Sem1-C-CPP/project/src/funcs.h
+

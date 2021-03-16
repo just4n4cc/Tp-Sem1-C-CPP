@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/tests.dir/gtests/tests.cpp.o -o tests  /usr/local/lib/libgtest.a -lpthread liborders_manage_lib.a 

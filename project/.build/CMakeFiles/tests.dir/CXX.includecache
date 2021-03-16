@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/funcs.h
+
+../include/order_struct.h
+
+/home/user/tp/Sem1/Tp-Sem1-C-CPP/project/gtests/tests.cpp
+gtest/gtest.h
+/home/user/tp/Sem1/Tp-Sem1-C-CPP/project/gtests/gtest/gtest.h
+string.h
+-
+order_struct.h
+/home/user/tp/Sem1/Tp-Sem1-C-CPP/project/gtests/order_struct.h
+funcs.h
+/home/user/tp/Sem1/Tp-Sem1-C-CPP/project/gtests/funcs.h
+
