@@ -1,0 +1,29 @@
+name: 'Tests'
+on:
+  push:
+    branches:
+      - iz1
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Valgrind
+      run: sudo apt-get install -y valgrind
+    - name: Install GoogleTests
+      run: sudo apt-get install -y googletest && sudo apt-get install libgtest-dev
+    - name: Install CppCheck
+      run: sudo apt-get install -y cppcheck
+    - name: Run Linter
+      run: cd project/src && cppcheck *.c
+      run: cd project/include && cppcheck *.h
+    - name: Make
+      run: cd project/.build && cmake ../ && make
+    - name: Test
+      run: cd project/.build && ./tests
+    - name: Valgrind
+      run: cd project/.build && valgrind --tool=memcheck --leak-check=yes ./tests
