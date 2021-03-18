@@ -15,14 +15,6 @@ const size_t sub2_p_num = 3;
 
 order items[3] = {{"item1", 2, 500, 0.4}, {"item2", 1, 250, 0.7}, {"item3", 4, 700, 0.5}};
 order test[3] = {{"item1", 2, 500, 0.4}, {"item2", 1, 250, 0.7}, {"item3", 4, 700, 0.5}};
-order test_sub1_w[2] = {{"item3", 3, 700, 0.5}, {"item1", 1, 500, 0.4}};
-order test_sub2_w[3] = {{"item2", 1, 250, 0.7}, {"item3", 1, 700, 0.5}, {"item1", 1, 500, 0.4}};
-order test_sub1_p[2] = {{"item3", 2, 700, 0.5}, {"item1", 1, 500, 0.4}};
-order test_sub2_p[3] = {{"item3", 2, 700, 0.5}, {"item1", 1, 500, 0.4}, {"item2", 1, 250, 0.7}};
-float w_diff = 0.3;
-float p_diff = 250;
-order test_sorted_w[3] = {{"item2", 1, 250, 0.7}, {"item3", 4, 700, 0.5}, {"item1", 2, 500, 0.4}};
-order test_sorted_p[3] = {{"item3", 4, 700, 0.5}, {"item1", 2, 500, 0.4}, {"item2", 1, 250, 0.7}};
 
 void ResetTestOrders() {
     for (size_t i = 0; i < test_num; ++i) {
@@ -45,8 +37,8 @@ bool CompareOrders(order *o1, order *o2, size_t num) {
 }
 
 TEST(GetOrderData, InvalidInput) {
-    ASSERT_EQ(get_order_data(NULL, 0, O_PRICE), -1);
-    ASSERT_EQ(get_order_data(NULL, 0, O_WEIGHT), -1);
+    EXPECT_EQ(get_order_data(NULL, 0, O_PRICE), -1);
+    EXPECT_EQ(get_order_data(NULL, 0, O_WEIGHT), -1);
 }
 
 TEST(GetOrderData, CorrectInput) {
@@ -55,7 +47,7 @@ TEST(GetOrderData, CorrectInput) {
 }
 
 TEST(PrintOrders, InvalidInput) {
-    ASSERT_EQ(print_orders(NULL, 2), -1);
+    EXPECT_EQ(print_orders(NULL, 2), -1);
 }
 
 TEST(PrintOrders, CorrectInput) {
@@ -63,6 +55,9 @@ TEST(PrintOrders, CorrectInput) {
 }
 
 TEST(BinarySearch, CorrectInput) {
+    order test_sorted_w[3] = {{"item2", 1, 250, 0.7}, {"item3", 4, 700, 0.5}, {"item1", 2, 500, 0.4}};
+    order test_sorted_p[3] = {{"item3", 4, 700, 0.5}, {"item1", 2, 500, 0.4}, {"item2", 1, 250, 0.7}};
+
     ASSERT_EQ(binary_search(test_sorted_w, 0, 2, 0.6, O_WEIGHT), 1);
     ASSERT_EQ(binary_search(test_sorted_w, 0, 2, 0.8, O_WEIGHT), 0);
     ASSERT_EQ(binary_search(test_sorted_w, 0, 2, 0.1, O_WEIGHT), 3);
@@ -73,11 +68,14 @@ TEST(BinarySearch, CorrectInput) {
 }
 
 TEST(InsertSort, InvalidInput) {
-    ASSERT_EQ(insert_sort(NULL, 0, O_WEIGHT), -1);
-    ASSERT_EQ(insert_sort(NULL, 5, O_PRICE), -1);
+    EXPECT_EQ(insert_sort(NULL, 0, O_WEIGHT), -1);
+    EXPECT_EQ(insert_sort(NULL, 5, O_PRICE), -1);
 }
 
 TEST(InsertSort, CorrectInput) {
+    order test_sorted_w[3] = {{"item2", 1, 250, 0.7}, {"item3", 4, 700, 0.5}, {"item1", 2, 500, 0.4}};
+    order test_sorted_p[3] = {{"item3", 4, 700, 0.5}, {"item1", 2, 500, 0.4}, {"item2", 1, 250, 0.7}};
+
     insert_sort(test, test_num, O_WEIGHT);
     ASSERT_TRUE(CompareOrders(test, test_sorted_w, test_num));
     ResetTestOrders();
@@ -87,6 +85,9 @@ TEST(InsertSort, CorrectInput) {
 }
 
 TEST(InsertSort, SortedInput) {
+    order test_sorted_w[3] = {{"item2", 1, 250, 0.7}, {"item3", 4, 700, 0.5}, {"item1", 2, 500, 0.4}};
+    order test_sorted_p[3] = {{"item3", 4, 700, 0.5}, {"item1", 2, 500, 0.4}, {"item2", 1, 250, 0.7}};
+
     insert_sort(test, test_num, O_WEIGHT);
     insert_sort(test, test_num, O_WEIGHT);
     ASSERT_TRUE(CompareOrders(test, test_sorted_w, test_num));
@@ -112,44 +113,52 @@ TEST(GreedySplitOrders, InvalidInput) {
 TEST(GreedySplitOrders, CorrectInputWeight) {
     size_t num1 = 0;
     size_t num2 = 0;
-    order *sub1 = (order*)calloc(test_num, sizeof(order));
-    order *sub2 = (order*)calloc(test_num, sizeof(order));
+    float w_diff = 0.3;
+    order test_sub1_w[2] = {{"item3", 3, 700, 0.5}, {"item1", 1, 500, 0.4}};
+    order test_sub2_w[3] = {{"item2", 1, 250, 0.7}, {"item3", 1, 700, 0.5}, {"item1", 1, 500, 0.4}};
 
-    ASSERT_FLOAT_EQ(greedy_split_orders(test, test_num, sub1, &num1, sub2, &num2, O_WEIGHT), w_diff);
-    ASSERT_EQ(num1, sub1_w_num);
-    ASSERT_EQ(num2, sub2_w_num);
-    ASSERT_TRUE(CompareOrders(sub1, test_sub1_w, sub1_w_num));
-    ASSERT_TRUE(CompareOrders(sub2, test_sub2_w, sub2_w_num));
+    order *sub1 = new order[test_num];
+    order *sub2 = new order[test_num];
+
+    EXPECT_FLOAT_EQ(greedy_split_orders(test, test_num, sub1, &num1, sub2, &num2, O_WEIGHT), w_diff);
+    EXPECT_EQ(num1, sub1_w_num);
+    EXPECT_EQ(num2, sub2_w_num);
+    EXPECT_TRUE(CompareOrders(sub1, test_sub1_w, sub1_w_num));
+    EXPECT_TRUE(CompareOrders(sub2, test_sub2_w, sub2_w_num));
     ResetTestOrders();
 
-    free(sub1);
-    free(sub2);
+    delete[] sub1;
+    delete[] sub2;
 }
 
 TEST(GreedySplitOrders, CorrectInputPrice) {
     size_t num1 = 0;
     size_t num2 = 0;
-    order *sub1 = (order*)calloc(test_num, sizeof(order));
-    order *sub2 = (order*)calloc(test_num, sizeof(order));
+    float p_diff = 250;
+    order test_sub1_p[2] = {{"item3", 2, 700, 0.5}, {"item1", 1, 500, 0.4}};
+    order test_sub2_p[3] = {{"item3", 2, 700, 0.5}, {"item1", 1, 500, 0.4}, {"item2", 1, 250, 0.7}};
 
-    ASSERT_FLOAT_EQ(greedy_split_orders(test, test_num, sub1, &num1, sub2, &num2, O_PRICE), p_diff);
-    ASSERT_EQ(num1, sub1_p_num);
-    ASSERT_EQ(num2, sub2_p_num);
-    ASSERT_TRUE(CompareOrders(sub1, test_sub1_p, sub1_p_num));
-    ASSERT_TRUE(CompareOrders(sub2, test_sub2_p, sub2_p_num));
+    order *sub1 = new order[test_num];
+    order *sub2 = new order[test_num];
+
+    EXPECT_FLOAT_EQ(greedy_split_orders(test, test_num, sub1, &num1, sub2, &num2, O_PRICE), p_diff);
+    EXPECT_EQ(num1, sub1_p_num);
+    EXPECT_EQ(num2, sub2_p_num);
+    EXPECT_TRUE(CompareOrders(sub1, test_sub1_p, sub1_p_num));
+    EXPECT_TRUE(CompareOrders(sub2, test_sub2_p, sub2_p_num));
     ResetTestOrders();
 
-    free(sub1);
-    free(sub2);
+    delete[] sub1;
+    delete[] sub2;
 }
 
 TEST(SplitManger, InvalidInput) {
     int error = -1;
     size_t a = 0;
     size_t b = 0;
-    ASSERT_EQ(split_manager(NULL, test_num, test, &a, items, &b), error);
-    ASSERT_EQ(split_manager(test, test_num, test, NULL, items, &b), error);
-    ASSERT_EQ(split_manager(test, test_num, test, &a, NULL, &b), error);
-    ASSERT_EQ(split_manager(test, test_num, items, &a, items, &b), error);
-    ASSERT_EQ(split_manager(items, test_num, items, &a, test, &a), error);
+    EXPECT_EQ(split_manager(NULL, test_num, test, &a, items, &b), error);
+    EXPECT_EQ(split_manager(test, test_num, test, NULL, items, &b), error);
+    EXPECT_EQ(split_manager(test, test_num, test, &a, NULL, &b), error);
+    EXPECT_EQ(split_manager(test, test_num, items, &a, items, &b), error);
+    EXPECT_EQ(split_manager(items, test_num, items, &a, test, &a), error);
 }
