@@ -28,9 +28,7 @@ jobs:
       run: mkdir project/build && cd project/build && cmake -DCMAKE_BUILD_TYPE=Debug ..
     - name: Make
       run: cd project/build && make
-    - name: Test
-      run: cd project/build && ./tests
-    - name: Valgrind
+    - name: Valgrind & Tests
       run: cd project/build && valgrind --tool=memcheck --leak-check=yes ./tests
     - name: Code Coverage
       run: cd project/build && make coverage
