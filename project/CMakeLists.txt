@@ -5,34 +5,17 @@ project(TryCI VERSION 1.0
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMakeModules)
 
-# Добавление покрытия кода
+##
+### Code coverage ###
+##
 if (CMAKE_BUILD_TYPE MATCHES Debug)
   include(CodeCoverage)
   append_coverage_compiler_flags()
   setup_target_for_coverage_gcovr_html(
     NAME coverage
-    #    EXECUTABLE valgrind --tool=memcheck --leak-check=yes ctest
     BASE_DIRECTORY "${PROJECT_SOURCE_DIR}"
     EXCLUDE "build/*" "gtests/*" "src/main.c")
 endif()
-
-##
-### Test definitions ###
-##
-
-#configure_file(CMakeLists.txt.in
-#        googletest-download/CMakeLists.txt)
-#execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-#        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
-#execute_process(COMMAND ${CMAKE_COMMAND} --build .
-#        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
-
-#add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
-#        ${CMAKE_BINARY_DIR}/googletest-build)
-
-#enable_testing()
-
-#add_subdirectory(gtests)
 
 ##
 ### Source definitions ###
@@ -47,15 +30,9 @@ add_library(orders_manage_lib STATIC ${LIB_SOURCE_FILES})
 add_executable(prog src/main.c)
 target_link_libraries(prog orders_manage_lib)
 
-
-#include_directories("${PROJECT_SOURCE_DIR}/include")
-
-#file(GLOB sources
-#  "${PROJECT_SOURCE_DIR}/include/*.h"
-#  "${PROJECT_SOURCE_DIR}/src/*.c")
-
-#add_executable(prog ${sources})
-
+##
+### Test definitions ###
+##
 enable_testing()
 find_package(GTest REQUIRED)
 
