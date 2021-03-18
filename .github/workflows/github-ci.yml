@@ -25,7 +25,7 @@ jobs:
     - name: Run Linter For .H
       run: cd project/include && cppcheck *.h
     - name: Make Build Dir & CMake
-      run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug ..
+      run: mkdir project/build && cd project/build && cmake -DCMAKE_BUILD_TYPE=Debug ..
     - name: Make
       run: cd project/build && make
     - name: Test
