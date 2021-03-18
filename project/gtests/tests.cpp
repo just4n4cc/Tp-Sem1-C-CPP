@@ -14,7 +14,7 @@ const size_t sub1_p_num = 2;
 const size_t sub2_p_num = 3;
 
 order items[3] = {{"item1", 2, 500, 0.4}, {"item2", 1, 250, 0.7}, {"item3", 4, 700, 0.5}};
-order test[3];
+order test[3] = {{"item1", 2, 500, 0.4}, {"item2", 1, 250, 0.7}, {"item3", 4, 700, 0.5}};
 order test_sub1_w[2] = {{"item3", 3, 700, 0.5}, {"item1", 1, 500, 0.4}};
 order test_sub2_w[3] = {{"item2", 1, 250, 0.7}, {"item3", 1, 700, 0.5}, {"item1", 1, 500, 0.4}};
 order test_sub1_p[2] = {{"item3", 2, 700, 0.5}, {"item1", 1, 500, 0.4}};
@@ -152,10 +152,4 @@ TEST(SplitManger, InvalidInput) {
     ASSERT_EQ(split_manager(test, test_num, test, &a, NULL, &b), error);
     ASSERT_EQ(split_manager(test, test_num, items, &a, items, &b), error);
     ASSERT_EQ(split_manager(items, test_num, items, &a, test, &a), error);
-}
-
-int main(int argc, char** argv) {
-    ResetTestOrders();
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
 }

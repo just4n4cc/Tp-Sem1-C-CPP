@@ -1,1 +1,0 @@
-/usr/bin/cc  -Wall -ggdb3 CMakeFiles/prog.dir/src/main.c.o -o prog  liborders_manage_lib.a 

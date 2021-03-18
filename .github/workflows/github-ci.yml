@@ -12,6 +12,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install gcovr
+      run: sudo apt-get install python3-setuptools && sudo pip3 install git+https://github.com/gcovr/gcovr.git
     - name: Install Valgrind
       run: sudo apt-get install -y valgrind
     - name: Install GoogleTests
@@ -22,9 +24,18 @@ jobs:
       run: cd project/src && cppcheck *.c
     - name: Run Linter For .H
       run: cd project/include && cppcheck *.h
+    - name: Make Build Dir
+      run: mkdir build
     - name: Make
-      run: cd project/.build && cmake ../ && make
+      run: cd project/build && cmake -DCMAKE_BUILD_TYPE=Debug .. && make
     - name: Test
-      run: cd project/.build && ./tests
+      run: cd project/build && ./tests
     - name: Valgrind
-      run: cd project/.build && valgrind --tool=memcheck --leak-check=yes ./tests
+      run: cd project/build && valgrind --tool=memcheck --leak-check=yes ./tests
+    - name: Code Coverage
+      run: cd project/build && make coverage
+    - name: Code coverage results
+      uses: actions/upload-artifact@v2
+      with:
+        name: code-coverage-report
+        path: build/coverage/index.html

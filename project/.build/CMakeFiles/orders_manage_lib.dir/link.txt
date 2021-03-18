@@ -1,2 +1,0 @@
-/usr/bin/ar qc liborders_manage_lib.a CMakeFiles/orders_manage_lib.dir/src/funcs.c.o
-/usr/bin/ranlib liborders_manage_lib.a
