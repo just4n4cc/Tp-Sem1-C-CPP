@@ -24,10 +24,10 @@ jobs:
       run: cd project/src && cppcheck *.c
     - name: Run Linter For .H
       run: cd project/include && cppcheck *.h
-    - name: Make Build Dir
-      run: mkdir build
+    - name: Make Build Dir & CMake
+      run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug ..
     - name: Make
-      run: cd project/build && cmake -DCMAKE_BUILD_TYPE=Debug .. && make
+      run: cd project/build && make
     - name: Test
       run: cd project/build && ./tests
     - name: Valgrind
